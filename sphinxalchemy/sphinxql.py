@@ -71,7 +71,7 @@ class Select(expression.Select):
 
         .. _here: http://sphinxsearch.com/docs/2.0.2/sphinxql-select.html
         """
-        options = list(args) + kwargs.items()
+        options = list(args) + list(kwargs.items())
         if self._options is None:
             self._options = _Options(options)
         else:
