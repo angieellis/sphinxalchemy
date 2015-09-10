@@ -31,7 +31,7 @@ class SphinxCompiler(compiler.SQLCompiler):
             return r
         return " OPTION %s" % _compile(select._options)
 
-    def limit_clause(self, select):
+    def limit_clause(self, select, **kw):
         text = ""
         if select._limit is not None and select._offset is None:
             text += "\n LIMIT " + self.process(sql.literal(select._limit))
@@ -88,11 +88,6 @@ class SphinxCompiler(compiler.SQLCompiler):
 
         self.stack.append({'from': correlate_froms,
                            'iswrapper': iswrapper})
-
-        if compound_index == 1 and not entry or entry.get('iswrapper', False):
-            column_clause_args = {'result_map': self.result_map}
-        else:
-            column_clause_args = {}
 
         # the actual list of columns to print in the SELECT column list.
         inner_columns = [
