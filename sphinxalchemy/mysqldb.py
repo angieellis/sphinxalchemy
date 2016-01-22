@@ -2,8 +2,8 @@
 
 from __future__ import absolute_import
 
-import mysqldb
-from mysqldb.connections import Connection
+import MySQLdb
+from MySQLdb.connections import Connection
 from sqlalchemy.dialects.mysql import mysqldb as mysqldb_dialect
 # from sqlalchemy.connectors import mysqldb
 from sphinxalchemy.dialect import SphinxDialect
@@ -17,7 +17,7 @@ class DBAPIShim(object):
         return Connection(*args, **kwargs)
 
     def __getattr__(self, name):
-        return getattr(mysqldb, name)
+        return getattr(MySQLdb, name)
 
 
 class Dialect(SphinxDialect, mysqldb_dialect.MySQLDialect_mysqldb):
