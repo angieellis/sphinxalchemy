@@ -12,7 +12,7 @@ __all__ = ("Dialect",)
 class DBAPIShim(object):
 
     def connect(self, *args, **kwargs):
-        return MySQLdb.connection(*args, **kwargs)
+        return MySQLdb.Connection(*args, **kwargs)
 
     def __getattr__(self, name):
         return getattr(MySQLdb, name)
