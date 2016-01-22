@@ -3,9 +3,7 @@
 from __future__ import absolute_import
 
 import MySQLdb
-from MySQLdb.connections import Connection
 from sqlalchemy.dialects.mysql import mysqldb as mysqldb_dialect
-# from sqlalchemy.connectors import mysqldb
 from sphinxalchemy.dialect import SphinxDialect
 
 __all__ = ("Dialect",)
@@ -14,7 +12,7 @@ __all__ = ("Dialect",)
 class DBAPIShim(object):
 
     def connect(self, *args, **kwargs):
-        return Connection(*args, **kwargs)
+        return MySQLdb.connection(*args, **kwargs)
 
     def __getattr__(self, name):
         return getattr(MySQLdb, name)
