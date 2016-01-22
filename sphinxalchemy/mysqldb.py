@@ -2,10 +2,44 @@
 
 from __future__ import absolute_import
 
-from sqlalchemy.connectors import mysqldb
+import mysqldb
+from mysqldb.connections import Connection
+from sqlalchemy.dialects.mysql import mysqldb as mysqldb_dialect
+# from sqlalchemy.connectors import mysqldb
 from sphinxalchemy.dialect import SphinxDialect
 
 __all__ = ("Dialect",)
 
-class Dialect(SphinxDialect, mysqldb.MySQLDBConnector):
-    pass
+
+class DBAPIShim(object):
+
+    def connect(self, *args, **kwargs):
+        return Connection(*args, **kwargs)
+
+    def __getattr__(self, name):
+        return getattr(mysqldb, name)
+
+
+class Dialect(SphinxDialect, mysqldb_dialect.MySQLDialect_mysqldb):
+
+    def _get_default_schema_name(self, connection):
+        pass
+
+    def _detect_charset(self, connection):
+        pass
+
+    def _detect_casing(self, connection):
+        pass
+
+    def _detect_collations(self, connection):
+        pass
+
+    def _detect_ansiquotes(self, connection):
+        self._server_ansiquotes = False
+
+    def get_isolation_level(self, connection):
+        pass
+
+    @classmethod
+    def dbapi(cls):
+        return DBAPIShim()
