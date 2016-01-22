@@ -61,7 +61,7 @@ class SphinxCompiler(compiler.SQLCompiler):
         if is_literal:
             name = self.escape_literal_column(name)
         else:
-            name = self.preparer.quote(name, column.quote)
+            name = self.preparer.quote(name)
 
         return name
 
